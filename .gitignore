@@ -1,0 +1,34 @@
+# 🧪 Environment Variables
+.env
+
+# 📦 Dependencies
+node_modules/
+
+# 🛠️ Build Outputs
+dist/
+dist-ssr/
+
+# 🧾 Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ⚙️ Editor Settings
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+
+# 💻 Windows / Visual Studio files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ❓ Misc
+*.sw?
+*.local
