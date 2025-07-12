@@ -3,8 +3,6 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 
 import authRoutes from './routes/auth.js';
 import destinationRoutes from './routes/destinations.js';
@@ -50,24 +48,9 @@ app.get('/', (req, res) => {
   res.send('Travel Web API is running...');
 });
 
-// Fix for __dirname in ESM
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Serve static frontend files in production
-if (process.env.NODE_ENV === "production") {
-  const frontendPath = path.resolve(__dirname, "../frontend/dist");
-  app.use(express.static(frontendPath));
-
-  app.use((req, res, next) => {
-    if (req.originalUrl.startsWith("/api")) {
-      return next(); // Don't handle API requests
-    }
-    res.sendFile(path.join(frontendPath, "index.html"));
-  });
-}
-
 // Connect to MongoDB, then start the server
 connectDB().then(() => {
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 });
+
+const __dirname = path.resolve(); // Resolve the absolute path for the project root
