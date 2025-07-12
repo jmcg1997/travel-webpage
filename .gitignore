@@ -5,7 +5,7 @@
 node_modules/
 
 # 🛠️ Build Outputs
-# dist/
+dist/
 dist-ssr/
 
 # 🧾 Logs
