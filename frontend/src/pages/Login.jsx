@@ -16,6 +16,9 @@ export default function Login() {
   // Error message for invalid login
   const [error, setError] = useState("");
 
+  // Show "Go to email" button if needed
+  const [showVerifyButton, setShowVerifyButton] = useState(false);
+
   // Handle login form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +40,11 @@ export default function Login() {
       setError(msg);
       console.error(err);
       toast.error(msg);
+
+      // If email verification is required, show "Go to email" button
+      if (msg === "Please verify your email before logging in.") {
+        setShowVerifyButton(true);
+      }
     }
   };
 
@@ -107,6 +115,18 @@ export default function Login() {
             </Link>
           </p>
         </div>
+
+        {/* Simulated Email Verification */}
+        {showVerifyButton && (
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => navigate("/verify-email")}
+              className="bg-white text-gray-800 font-semibold px-4 py-2 rounded shadow hover:bg-gray-100 transition duration-200"
+            >
+              Go to your email →
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
