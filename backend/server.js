@@ -56,11 +56,13 @@ const __dirname = dirname(__filename);
 
 // Serve static frontend files in production
 if (process.env.NODE_ENV === "production") {
-  const frontendPath = path.join(__dirname, "./frontend/dist");
+  const frontendPath = path.resolve(__dirname, "../frontend/dist");
   app.use(express.static(frontendPath));
 
-  // Catch-all: redirect all non-API requests to index.html
-  app.get("*", (req, res) => {
+  app.use((req, res, next) => {
+    if (req.originalUrl.startsWith("/api")) {
+      return next(); // Don't handle API requests
+    }
     res.sendFile(path.join(frontendPath, "index.html"));
   });
 }
