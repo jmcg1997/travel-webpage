@@ -2,7 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 import authRoutes from './routes/auth.js';
 import destinationRoutes from './routes/destinations.js';
@@ -12,6 +13,10 @@ import nearbyRoutes from './routes/nearby.js';
 import geocodeRoutes from "./routes/geocode.js";
 import favoriteRoutes from "./routes/favorites.js";
 import quoteRoutes from './routes/quote.js';
+
+// Set up the path to the current directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 dotenv.config(); // Load environment variables from .env file
 
@@ -43,6 +48,17 @@ app.use('/api/nearby', nearbyRoutes);
 app.use("/api/geocode", geocodeRoutes);
 app.use("/api/favorites", favoriteRoutes);
 
+// Serve frontend static files in production
+if (process.env.NODE_ENV === 'production') {
+  const frontendPath = path.join(__dirname, '../frontend/dist');
+  app.use(express.static(frontendPath));
+
+  // Catch-all route to serve index.html for React Router
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  });
+}
+
 // Root route (basic health check)
 app.get('/', (req, res) => {
   res.send('Travel Web API is running...');
@@ -52,15 +68,3 @@ app.get('/', (req, res) => {
 connectDB().then(() => {
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 });
-
-if (process.env.NODE_ENV === 'production') {
-  const frontendPath = path.join(__dirname, '/frontend/dist');
-  app.use(express.static(frontendPath));
-
-  // Catch-all route to serve index.html for any frontend route (React Router)
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(frontendPath, 'index.html'));
-  });
-}
-
-const __dirname = path.resolve(); // Resolve the absolute path for the project root
