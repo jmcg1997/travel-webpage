@@ -22,9 +22,10 @@ export default function Explore() {
     const fetchFavorites = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("/api/favorites", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/favorites`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         setFavorites(res.data);
       } catch (err) {
         console.error("Error fetching favorites", err);
@@ -49,8 +50,10 @@ export default function Explore() {
     try {
       setLoading(true);
       setError(null);
-      console.log("Calling /api/nearby with:", lat, lon, city);
-      const res = await axios.get(`/api/nearby?lat=${lat}&lon=${lon}&city=${city}`);
+      console.log("Calling import.meta.env.VITE_API_URL with:", lat, lon, city);
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/nearby?lat=${lat}&lon=${lon}&city=${city}`
+      );
       setPlaces({
         eat: res.data.eat,
         sleep: res.data.sleep,
@@ -72,7 +75,9 @@ export default function Explore() {
       setLoading(true);
       setError(null);
 
-      const res = await axios.get(`/api/geocode?city=${city}`);
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/geocode?city=${city}`
+      );
       const { lat, lon } = res.data;
       await fetchNearbyPlaces(lat, lon);
     } catch (err) {
@@ -112,7 +117,7 @@ export default function Explore() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "/api/favorites",
+        `${import.meta.env.VITE_API_URL}/favorites`,
         {
           name: place.name,
           kind: place.kind,
@@ -148,9 +153,12 @@ export default function Explore() {
 
       if (!found) return toast.error("Favorite not found.");
 
-      await axios.delete(`/api/favorites/${found._id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/favorites/${found._id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       setFavorites((prev) => prev.filter((f) => f._id !== found._id));
       toast.success("Favorite removed!");

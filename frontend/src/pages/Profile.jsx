@@ -37,11 +37,13 @@ export default function Profile() {
     fetchData();
     const fetchFavorites = async () => {
       const token = localStorage.getItem("token");
-      const res = await axios.get("/api/favorites", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/favorites`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       setFavorites(res.data);
     };
 
@@ -151,9 +153,11 @@ export default function Profile() {
 
                       try {
                         const token = localStorage.getItem("token");
-                        await axios.delete(`/api/favorites/${fav._id}`, {
-                          headers: { Authorization: `Bearer ${token}` },
-                        });
+                        await axios.delete(
+                          `${import.meta.env.VITE_API_URL}/favorites/${fav._id}`,
+                          {
+                            headers: { Authorization: `Bearer ${token}` },
+                          });
                         setFavorites((prev) => prev.filter((f) => f._id !== fav._id));
                       } catch (err) {
                         console.error("Failed to delete favorite", err);

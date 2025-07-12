@@ -22,8 +22,8 @@ export default function Home() {
   // Fetch a motivational quote from the API
   const fetchQuote = async () => {
     try {
-      const res = await axios.get("/api/quote");
-      setQuote(res.data.quote);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/quote`);
+      setQuote(response.data.quote);
     } catch (err) {
       console.error("Failed to fetch quote", err);
       toast.error("Couldn't load inspiration quote.");
