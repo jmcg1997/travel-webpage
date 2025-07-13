@@ -18,7 +18,11 @@ import DestinationDetail from "./pages/DestinationDetail.jsx";
 import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
-  const { token } = useAuth(); // Get the current user's token from context
+  const { token, isLoading } = useAuth(); // Get the current user's token from context
+
+  if (isLoading) {
+    return <div className="text-white text-center mt-10">Loading...</div>;
+  }
 
   return (
     <BrowserRouter>

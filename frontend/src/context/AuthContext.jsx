@@ -13,14 +13,20 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null); // Stores the current user
   const [token, setToken] = useState(localStorage.getItem("token") || null); // JWT token from localStorage
+   const [isLoading, setIsLoading] = useState(true); // Loading state
 
   // Load user info from localStorage if token exists
   useEffect(() => {
-    if (token) {
-      const storedUser = JSON.parse(localStorage.getItem("user"));
-      if (storedUser) setUser(storedUser);
+    const storedToken = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
+
+    if (storedToken && storedUser) {
+      setToken(storedToken);
+      setUser(JSON.parse(storedUser));
     }
-  }, [token]);
+
+    setIsLoading(false); // ✅ Mark loading complete
+  }, []);
 
   // Login and persist user/token in localStorage
   const login = (userData, jwtToken) => {
@@ -52,7 +58,7 @@ export function AuthProvider({ children }) {
   // Provide auth-related values to children components
   return (
     <AuthContext.Provider
-      value={{ user, setUser, token, login, logout, refreshUser }}
+      value={{ user, setUser, token, login, logout, refreshUser, isLoading }}
     >
       {children}
     </AuthContext.Provider>
