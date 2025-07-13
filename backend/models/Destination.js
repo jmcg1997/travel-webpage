@@ -57,6 +57,6 @@ const destinationSchema = new mongoose.Schema({
 });
 
 // Add geospatial index to support location-based queries
-destinationSchema.index({ coordinates: '2dsphere' });
+// destinationSchema.index({ coordinates: '2dsphere' });
 
 export default mongoose.model('Destination', destinationSchema);

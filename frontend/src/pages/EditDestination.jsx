@@ -71,8 +71,8 @@ export default function EditDestination() {
       const payload = {
         ...form,
         coordinates: {
-          lat: parseFloat(form.coordinates.lat),
-          lng: parseFloat(form.coordinates.lng)
+          lat: parseFloat(form.coordinates.lat) || 0,
+          lng: parseFloat(form.coordinates.lng) || 0
         },
         tags: form.tags
           .split(",")
