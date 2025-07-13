@@ -218,7 +218,14 @@ Introduce advanced social features and user-generated content:
 - Public and private messaging between users
 - Share short-form content (similar to Instagram Reels or TikToks)
 
+## Manual Testing
 
+- ✅ All forms validated (login, register, password reset, destinations)
+- ✅ API integration tested manually with different user roles
+- ✅ Responsiveness checked on mobile and desktop
+- ✅ Common errors simulated (e.g. expired token, wrong password, missing data)
+
+The application was also reviewed using Chrome DevTools and error boundaries in React.
 
 ## 🙏 Acknowledgements
 
